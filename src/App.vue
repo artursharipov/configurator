@@ -3,13 +3,23 @@
 		<div class="x-row">
 			<div class="x-col-60">
 
-				<car-image :src="src">
+				<div class="carconfig__container">
 
-				</car-image>
-
-				<div class="carconfig__price">
-					{{ calcPrice }}
+					<car-image :src="src"></car-image>
+					
+					
 				</div>
+
+				<div class="result">
+					<div class="result__content">
+						<car-image :src="srcSalon" class="salon-image"></car-image>
+
+						<div class="carconfig__price">
+							{{ calcPrice }} руб.
+						</div>
+					</div>
+				</div>
+				
 
 			</div>
 			<div class="x-col-40">
@@ -17,7 +27,7 @@
 				<div class="properties">
 
 					<div class="property">
-						<div class="property__title">ОБЪЁМ ДВИГАТЕЛЯ</div>
+						<div class="property__title">Комплектация</div>
 
 						<switch-button 
 							v-for="engine in engines" 
@@ -25,18 +35,6 @@
 							@click="engineActive=engine.id" 
 							:class="{active: engineActive == engine.id}"
 						>{{ engine.name }}</switch-button>
-
-					</div>
-
-					<div class="property">
-						<div class="property__title">КОРОБКА ПЕРЕДАЧ</div>
-
-						<switch-button 
-							v-for="transmission in transmissions" 
-							:key="transmission.id"
-							@click="transmissionActive=transmission.id" 
-							:class="{active: transmissionActive == transmission.id}"
-						>{{ transmission.name }}</switch-button>
 
 					</div>
 
@@ -80,6 +78,19 @@
 
 					</div>
 
+					<div class="property">
+						<div class="property__title">Интерьер</div>
+
+						<image-button 
+							v-for="salon in salons" 
+							:key="salon.id"
+							@click="salonActive=salon.id, changeSalonSrc()" 
+							:class="[{active: salonActive == salon.id}]"
+							:src="salon.thumb"
+						></image-button>
+
+					</div>
+
 				</div>
 
 			</div>
@@ -105,40 +116,42 @@ export default {
 		return {
 			basePrice: 1000,
 			src: null,
+			srcSalon: null,
 			engineActive: 2,
-			transmissionActive: 2,
 			colorActive: 1,
+			salonActive: 1,
 			diskActive: 1,
 			deflector: false,
+			deflectorPrice: 10500,
 			engines: [
-				{id: 1, name: "2.8 л", price: 300},
-				{id: 2, name: "3.0 л", price: 400},
-				{id: 3, name: "3.5 л", price: 500},
-			],
-			transmissions: [
-				{id: 1, name: "MT", price: 40},
-				{id: 2, name: "AT", price: 70},
-				{id: 3, name: "CVT", price: 80},
+				{id: 1, name: "Стандарт", price: 2498000},
+				{id: 2, name: "Престиж", price: 2678000},
+				{id: 3, name: "Эксклюзив", price: 2805000},
 			],
 			colors: [
-				{id: 1, name: "Белый", colorName: 'white', price: 36},
-				{id: 2, name: "Красный", colorName: 'red', price: 42},
-				{id: 3, name: "Синий", colorName: 'blue', price: 41},
-				{id: 4, name: "Серый", colorName: 'darkgray', price: 39},
+				{id: 1, name: "Белый", colorName: 'white', price: 100800},
+				{id: 2, name: "Красный", colorName: 'red', price: 130600},
+				{id: 3, name: "Синий", colorName: 'blue', price: 113900},
+				{id: 4, name: "Серый", colorName: 'darkgray', price: 125700},
 			],
 			disks: [
-				{id: 1, name: "disk1", src: 'toyota/disk1.png', price: 14},
-				{id: 2, name: "disk2", src: 'toyota/disk2.png', price: 12},
+				{id: 1, name: "disk1", src: 'toyota/disk1.png', price: 100000},
+				{id: 2, name: "disk2", src: 'toyota/disk2.png', price: 200000},
 			],
+			salons: [
+				{id: 1, thumb: 'salon/thumb1.png', price: 70000},
+				{id: 2, thumb: 'salon/thumb2.png', price: 115000},
+			]
 		}
 	},
 	computed: {
 		calcPrice(){
 			let engine = this.engines.find(item => item.id == this.engineActive);
-			let transmission = this.transmissions.find(item => item.id == this.transmissionActive);
 			let color = this.colors.find(item => item.id == this.colorActive);
 			let disk = this.disks.find(item => item.id == this.diskActive);
-			return this.basePrice + engine.price + transmission.price + color.price + disk.price;
+			let defl = this.deflector ? this.deflectorPrice : 0;
+			let cost = this.basePrice + engine.price + color.price + disk.price + defl;
+			return cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ')
 		},
 	},
 	methods: {
@@ -148,10 +161,14 @@ export default {
 			let deflectorString = this.deflector ? '+defl' : '';
 			
 			this.src = 'toyota/'+ color.colorName +'/'+ disk.name + deflectorString + '.png'
+		},
+		changeSalonSrc(){
+			this.srcSalon = 'salon/'+ this.salonActive +'.jpg'
 		}
 	},
 	mounted() {
 		this.changeSrc();
+		this.changeSalonSrc();
 	}
 
 }
@@ -164,6 +181,31 @@ export default {
 	height: 100vh;
 	width: 100%;
 }
+.carconfig__container{
+	position: relative;
+	padding-right: 100px;
+    padding-top: 100px;
+}
+.carconfig__container img{
+	max-width: 100%;
+}
+.result{
+	padding: 15px;
+}
+.result__content{
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.salon-image{
+	width: 250px;
+	margin-right: 20px;
+}
+.carconfig__price{
+	font-size: 48px;
+	font-weight: 600;
+    text-align: center;
+}
 .x-row{
 	display: flex;
 	align-items: center;
@@ -175,10 +217,17 @@ export default {
 .x-col-40{
 	flex: 1 1 40%;
 }
+.properties{
+	text-align: center;
+}
 .property{
-	margin-bottom: 20px;
+	padding: 13px 10px;
 }
 .property__title{
-	margin-bottom: 10px;
+	color: #9b9b9b;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 15px;
 }
 </style>

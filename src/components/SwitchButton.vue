@@ -18,13 +18,15 @@ export default {
 <style scoped>
 
 .switch-button{
-    padding: 8px 14px;
+    padding: 10px 20px 8px;
     background-color: unset;
     color: #9b9b9b;
     border: 1px dashed #9b9b9b;
     outline: unset;
     margin-right: 5px;
     cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .switch-button.active{
