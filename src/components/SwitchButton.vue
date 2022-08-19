@@ -15,7 +15,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .switch-button{
     padding: 8px 14px;
