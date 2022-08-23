@@ -1,7 +1,7 @@
 <template>
 	<div class="carconfig">
-		<div class="x-row">
-			<div class="x-col-60">
+		<div class="uk-grid" uk-grid>
+			<div class="uk-width-2-3@l uk-width-1-2@m ">
 
 				<div class="carconfig__container">
 
@@ -22,7 +22,7 @@
 				
 
 			</div>
-			<div class="x-col-40">
+			<div class="uk-width-1-3@l uk-width-1-2@m">
 
 				<div class="properties">
 
@@ -135,12 +135,12 @@ export default {
 				{id: 4, name: "Серый", colorName: 'darkgray', price: 125700},
 			],
 			disks: [
-				{id: 1, name: "disk1", src: 'toyota/disk1.png', price: 100000},
-				{id: 2, name: "disk2", src: 'toyota/disk2.png', price: 200000},
+				{id: 1, name: "disk1", src: '/vue/configurator/dist/toyota/disk1.png', price: 100000},
+				{id: 2, name: "disk2", src: '/vue/configurator/dist/toyota/disk2.png', price: 200000},
 			],
 			salons: [
-				{id: 1, thumb: 'salon/thumb1.png', price: 70000},
-				{id: 2, thumb: 'salon/thumb2.png', price: 115000},
+				{id: 1, thumb: '/vue/configurator/dist/salon/thumb1.png', price: 70000},
+				{id: 2, thumb: '/vue/configurator/dist/salon/thumb2.png', price: 115000},
 			]
 		}
 	},
@@ -160,10 +160,10 @@ export default {
 			let disk = this.disks.find(item => item.id == this.diskActive);
 			let deflectorString = this.deflector ? '+defl' : '';
 			
-			this.src = 'toyota/'+ color.colorName +'/'+ disk.name + deflectorString + '.png'
+			this.src = '/vue/configurator/dist/toyota/'+ color.colorName +'/'+ disk.name + deflectorString + '.png'
 		},
 		changeSalonSrc(){
-			this.srcSalon = 'salon/'+ this.salonActive +'.jpg'
+			this.srcSalon = '/vue/configurator/dist/salon/'+ this.salonActive +'.jpg'
 		}
 	},
 	mounted() {
@@ -175,17 +175,6 @@ export default {
 </script>
 
 <style scoped>
-.carconfig{
-	background-color: #252525;
-	color: #fff;
-	height: 100vh;
-	width: 100%;
-}
-.carconfig__container{
-	position: relative;
-	padding-right: 100px;
-    padding-top: 100px;
-}
 .carconfig__container img{
 	max-width: 100%;
 }
@@ -202,20 +191,10 @@ export default {
 	margin-right: 20px;
 }
 .carconfig__price{
-	font-size: 48px;
+	font-size: 32px;
 	font-weight: 600;
     text-align: center;
-}
-.x-row{
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.x-col-60{
-	flex: 1 1 60%;
-}
-.x-col-40{
-	flex: 1 1 40%;
+	white-space: nowrap;
 }
 .properties{
 	text-align: center;
