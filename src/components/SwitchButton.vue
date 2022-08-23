@@ -27,6 +27,7 @@ export default {
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
+    margin-bottom: 5px;
 }
 
 .switch-button.active{

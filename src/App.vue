@@ -149,8 +149,9 @@ export default {
 			let engine = this.engines.find(item => item.id == this.engineActive);
 			let color = this.colors.find(item => item.id == this.colorActive);
 			let disk = this.disks.find(item => item.id == this.diskActive);
+			let salon = this.salons.find(item => item.id == this.salonActive);
 			let defl = this.deflector ? this.deflectorPrice : 0;
-			let cost = this.basePrice + engine.price + color.price + disk.price + defl;
+			let cost = this.basePrice + engine.price + color.price + disk.price + defl + salon.price;
 			return cost.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ')
 		},
 	},
@@ -185,16 +186,20 @@ export default {
 	display: flex;
     align-items: center;
     justify-content: center;
+	flex-wrap: wrap;
 }
 .salon-image{
-	width: 250px;
-	margin-right: 20px;
+	max-width: 50%;
+    margin-top: 2rem;
+    order: 2;
 }
 .carconfig__price{
-	font-size: 32px;
+	color: #fff;
+	font-size: 36px;
 	font-weight: 600;
     text-align: center;
-	white-space: nowrap;
+	order: 1;
+    flex: 0 0 100%;
 }
 .properties{
 	text-align: center;
@@ -207,6 +212,6 @@ export default {
     text-align: center;
     text-transform: uppercase;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 </style>

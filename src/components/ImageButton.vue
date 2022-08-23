@@ -27,7 +27,7 @@ export default {
     outline: 0;
     border: unset;
     margin-right: 5px;
-    width: 75px;
+    width: 60px;
     background-color: unset;
     border: 1px dashed transparent;
 }
